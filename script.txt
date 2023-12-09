@@ -1,7 +1,8 @@
-REPEAT 2
-    REPEAT 2
-        REPEAT 2
-            HELLO
-        ENDREPEAT
+SET A = 2
+SET B = A
+SET C = B
+REPEAT A
+    REPEAT B
+        HELLO
     ENDREPEAT
 ENDREPEAT

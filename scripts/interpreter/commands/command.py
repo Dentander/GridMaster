@@ -4,16 +4,16 @@ class Command:
         self.logger = interpreter.logger
         self.actor = interpreter.actor
         self.script = interpreter.script
-
-        self.set_name()
+        self.name = None
         self.line = None
+        self.on_init()
 
     def set_line(self, line):
         self.line = line
         return self
 
-    def set_name(self):
-        self.name = None
+    def on_init(self):
+        pass
 
     def execute(self, previous_result=None):
         pass

@@ -1,8 +1,11 @@
 from scripts.interpreter.actor import Actor
+from scripts.interpreter.commands.assignment import Assignment
 from scripts.interpreter.commands.repeat import Repeat, EndRepeat
+from scripts.interpreter.commands.set import Set
+from scripts.interpreter.commands.unknown import Unknown
 from scripts.interpreter.field import Field
 from scripts.interpreter.logger.logger import *
-from scripts.interpreter.commands.print import Say
+from scripts.interpreter.commands.hello import Hello
 from copy import copy
 
 
@@ -16,44 +19,58 @@ class Interpreter:
         self.commands = {}
         self.blocks_stack = []
         self.variables = []
-
-        self.current_line = 0
+        self.line = 0
 
         self.add_all_commands()
+
+    def add_all_commands(self):
+        self.add_command(Hello(self))
+        self.add_command(Repeat(self))
+        self.add_command(EndRepeat(self))
+        self.add_command(Unknown(self))
+        self.add_command(Assignment(self))
+        self.add_command(Set(self))
 
     def read_file(self, file_name: str):
         with open(file_name) as file:
             self.script = file.readlines()
 
-    def add_all_commands(self):
-        self.add_command(Say(self))
-        self.add_command(Repeat(self))
-        self.add_command(EndRepeat(self))
-
     def add_command(self, command):
         self.commands[command.name] = command
 
     def execute_current_line(self):
-        commands = self.script[self.current_line].split()
+        commands = self.script[self.line].split()
         self.execute_commands(commands)
-        self.current_line += 1
+        self.line += 1
 
     def execute_commands(self, commands: list, current_command=0):
+        if current_command == len(commands):
+            return None
         command_name = commands[current_command]
 
-        if command_name[0] in "0123456789":
-            return int(command_name)
+        if command_name not in self.commands.keys():
+            command = copy(self.commands["__UNKNOWN__"].set_line(self.line))
+            return command.execute(command_name, self.execute_commands(commands, current_command+1))
 
-        command = copy(self.commands[command_name].set_line(self.current_line))
-
-        if current_command == len(commands) - 1:
-            return command.execute(None)
-
+        command = copy(self.commands[command_name].set_line(self.line))
         return command.execute(self.execute_commands(commands, current_command+1))
 
     def goto(self, line: int):
-        self.current_line = line
+        self.line = line
+
+    def find_block_end(self, line, block_begin, block_end):
+        local_depth = 1
+        while local_depth > 0:
+            line += 1
+            commands = self.script[line].split()
+            if len(commands) == 0:
+                continue
+
+            command = commands[0]
+            local_depth += command == block_begin
+            local_depth -= command == block_end
+        return line
 
     def run(self):
-        while self.current_line < len(self.script):
+        while self.line < len(self.script):
             self.execute_current_line()
