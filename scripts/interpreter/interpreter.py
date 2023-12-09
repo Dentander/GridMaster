@@ -82,3 +82,4 @@ class Interpreter:
     def run(self):
         while self.line < len(self.script):
             self.execute_current_line()
+            self.field.draw(self.actor)
