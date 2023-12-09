@@ -1,4 +1,8 @@
 from scripts.interpreter.actor import Actor
+from scripts.interpreter.commands.movement.down import Down
+from scripts.interpreter.commands.movement.left import Left
+from scripts.interpreter.commands.movement.right import Right
+from scripts.interpreter.commands.movement.up import Up
 from scripts.interpreter.commands.variables.assignment import Assignment
 from scripts.interpreter.commands.blocks.repeat import Repeat, EndRepeat
 from scripts.interpreter.commands.variables.set import Set
@@ -30,6 +34,10 @@ class Interpreter:
         self.add_command(Unknown(self))
         self.add_command(Assignment(self))
         self.add_command(Set(self))
+        self.add_command(Right(self))
+        self.add_command(Left(self))
+        self.add_command(Up(self))
+        self.add_command(Down(self))
 
     def read_file(self, file_name: str):
         with open(file_name) as file:

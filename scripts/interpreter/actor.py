@@ -1,4 +1,4 @@
-from scripts.interpreter.interpreter import *
+from scripts.interpreter.logger.message import MessageType
 
 
 class Actor:
