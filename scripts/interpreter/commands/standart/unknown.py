@@ -1,5 +1,5 @@
 from scripts.interpreter.commands.command import Command
-from scripts.interpreter.commands.variable import Variable
+from scripts.interpreter.commands.variables.variable import Variable
 
 
 class Unknown(Command):
@@ -13,4 +13,3 @@ class Unknown(Command):
         if previous_result is not None and command_name not in self.interpreter.commands.keys():
             var = Variable(self.interpreter, command_name, previous_result)
             self.interpreter.add_command(var)
-

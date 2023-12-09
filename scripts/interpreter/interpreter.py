@@ -1,11 +1,11 @@
 from scripts.interpreter.actor import Actor
-from scripts.interpreter.commands.assignment import Assignment
-from scripts.interpreter.commands.repeat import Repeat, EndRepeat
-from scripts.interpreter.commands.set import Set
-from scripts.interpreter.commands.unknown import Unknown
+from scripts.interpreter.commands.variables.assignment import Assignment
+from scripts.interpreter.commands.blocks.repeat import Repeat, EndRepeat
+from scripts.interpreter.commands.variables.set import Set
+from scripts.interpreter.commands.standart.unknown import Unknown
 from scripts.interpreter.field import Field
 from scripts.interpreter.logger.logger import *
-from scripts.interpreter.commands.hello import Hello
+from scripts.interpreter.commands.standart.hello import Hello
 from copy import copy
 
 
