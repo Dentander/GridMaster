@@ -1,11 +1,7 @@
-SET A = 2
-SET B = 2
-SET C = B
-
-REPEAT 2
-    REPEAT 2
-        UP 1
-        RIGHT 1
-        HELLO
-    ENDREPEAT
+REPEAT 5
+    IFBLOCK RIGHT
+        REPEAT 3
+            RIGHT 2
+        ENDREPEAT
+    ENDIF
 ENDREPEAT

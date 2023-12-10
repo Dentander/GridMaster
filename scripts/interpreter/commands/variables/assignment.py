@@ -2,8 +2,8 @@ from scripts.interpreter.commands.command import Command
 
 
 class Assignment(Command):
-    def on_init(self):
-        self.name = "="
+    def __init__(self, interpreter):
+        super().__init__(interpreter, "=")
 
     def execute(self, previous_result=None):
         return previous_result

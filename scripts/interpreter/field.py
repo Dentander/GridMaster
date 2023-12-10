@@ -18,6 +18,3 @@ class Field:
             print(line)
         print('#' * (self.width + 2))
         print()
-
-
-

@@ -11,7 +11,7 @@ class MessageType(Enum):
 
 
 class Message:
-    def __init__(self, message_test: str, message_type=MessageType.DEBUG):
+    def __init__(self, test: str, type=MessageType.DEBUG):
         self.time = datetime.now()
-        self.message_test = message_test
-        self.message_type = message_type
+        self.text = test
+        self.type = type

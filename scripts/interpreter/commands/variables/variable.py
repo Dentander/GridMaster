@@ -5,8 +5,7 @@ class Variable(Command):
     count = 0
 
     def __init__(self, interpreter, name, value):
-        super().__init__(interpreter)
-        self.name = name
+        super().__init__(interpreter, name)
 
         self.interpreter.variables.append(value)
         self.address = Variable.count

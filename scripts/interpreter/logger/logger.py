@@ -7,7 +7,7 @@ class Logger:
 
     def log(self, message: Message):
         self.messages.append(message)
-        print(message.message_test)
+        print(message.text)
 
     def log(self, message_test: str, message_type=MessageType.DEBUG):
         self.messages.append(Message(message_test, message_type))
@@ -15,4 +15,3 @@ class Logger:
 
     def clear(self):
         self.messages.clear()
-

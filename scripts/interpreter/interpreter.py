@@ -1,4 +1,4 @@
-from scripts.interpreter.actor import Actor
+from scripts.interpreter.commands.blocks.ifblock import IfBlock, EndIf
 from scripts.interpreter.commands.movement.down import Down
 from scripts.interpreter.commands.movement.left import Left
 from scripts.interpreter.commands.movement.right import Right
@@ -7,9 +7,12 @@ from scripts.interpreter.commands.variables.assignment import Assignment
 from scripts.interpreter.commands.blocks.repeat import Repeat, EndRepeat
 from scripts.interpreter.commands.variables.set import Set
 from scripts.interpreter.commands.standart.unknown import Unknown
-from scripts.interpreter.field import Field
-from scripts.interpreter.logger.logger import *
 from scripts.interpreter.commands.standart.hello import Hello
+
+from scripts.interpreter.logger.logger import Logger, Message, MessageType
+from scripts.interpreter.field import Field
+from scripts.interpreter.actor import Actor
+
 from copy import copy
 
 
@@ -38,6 +41,8 @@ class Interpreter:
         self.add_command(Left(self))
         self.add_command(Up(self))
         self.add_command(Down(self))
+        self.add_command(IfBlock(self))
+        self.add_command(EndIf(self))
 
     def read_file(self, file_name: str):
         with open(file_name) as file:
@@ -81,5 +86,6 @@ class Interpreter:
 
     def run(self):
         while self.line < len(self.script):
+            print(self.line + 1)
             self.execute_current_line()
             self.field.draw(self.actor)

@@ -3,8 +3,7 @@ from scripts.interpreter.commands.command import Command
 
 class Repeat(Command):
     def __init__(self, interpreter):
-        super().__init__(interpreter)
-        self.name = 'REPEAT'
+        super().__init__(interpreter, 'REPEAT')
         self.index = None
 
     def execute(self, previous_result=None):
@@ -22,8 +21,7 @@ class Repeat(Command):
 
 class EndRepeat(Command):
     def __init__(self, interpreter):
-        super().__init__(interpreter)
-        self.name = 'ENDREPEAT'
+        super().__init__(interpreter, 'ENDREPEAT')
 
     def execute(self, previous_result=None):
         repeat_loop = self.interpreter.blocks_stack[-1]

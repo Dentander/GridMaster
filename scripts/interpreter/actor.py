@@ -15,4 +15,3 @@ class Actor:
             return
 
         self.position_x, self.position_y = new_position_x, new_position_y
-
