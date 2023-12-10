@@ -1,4 +1,5 @@
 from scripts.interpreter.commands.blocks.ifblock import IfBlock, EndIf
+from scripts.interpreter.commands.blocks.procedure import CreateProc, EndProc, Call
 from scripts.interpreter.commands.movement.down import Down
 from scripts.interpreter.commands.movement.left import Left
 from scripts.interpreter.commands.movement.right import Right
@@ -31,10 +32,11 @@ class Interpreter:
         self.add_all_commands()
 
     def add_all_commands(self):
+        self.add_command(Unknown(self))
+
         self.add_command(Hello(self))
         self.add_command(Repeat(self))
         self.add_command(EndRepeat(self))
-        self.add_command(Unknown(self))
         self.add_command(Assignment(self))
         self.add_command(Set(self))
         self.add_command(Right(self))
@@ -43,6 +45,9 @@ class Interpreter:
         self.add_command(Down(self))
         self.add_command(IfBlock(self))
         self.add_command(EndIf(self))
+        self.add_command(CreateProc(self))
+        self.add_command(EndProc(self))
+        self.add_command(Call(self))
 
     def read_file(self, file_name: str):
         with open(file_name) as file:
@@ -62,10 +67,12 @@ class Interpreter:
         command_name = commands[current_command]
 
         if command_name not in self.commands.keys():
-            command = copy(self.commands["__UNKNOWN__"].set_line(self.line))
+            command = copy(self.commands["__UNKNOWN__"]).set_line(self.line)
+            command.pre_execute()
             return command.execute(command_name, self.execute_commands(commands, current_command+1))
 
-        command = copy(self.commands[command_name].set_line(self.line))
+        command = copy(self.commands[command_name]).set_line(self.line)
+        command.pre_execute()
         return command.execute(self.execute_commands(commands, current_command+1))
 
     def goto(self, line: int):
@@ -89,3 +96,4 @@ class Interpreter:
             print(self.line + 1)
             self.execute_current_line()
             self.field.draw(self.actor)
+        print(self.commands.keys())

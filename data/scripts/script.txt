@@ -1,7 +1,11 @@
-REPEAT 5
-    IFBLOCK RIGHT
-        REPEAT 3
-            RIGHT 2
-        ENDREPEAT
-    ENDIF
+PROCEDURE MoveLeftAndUp
+    REPEAT 2
+        RIGHT 2
+        UP 2
+    ENDREPEAT
+    DOWN 1
+ENDPROC
+
+REPEAT 2
+    CALL MoveLeftAndUp
 ENDREPEAT
