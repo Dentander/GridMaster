@@ -1,0 +1,5 @@
+SET X = 10
+SET Y = X
+UP Y
+DOWN 4
+RIGHT X

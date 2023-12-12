@@ -1,9 +1,8 @@
-PROCEDURE MoveRightToEnd
-    IFBLOCK RIGHT
-        RIGHT 1
-        MoveRightToEnd
-    ENDIF
-ENDPROC
-
-
-CALL MoveRightToEnd
+SET A = 2
+SET B = A
+SET C = B
+REPEAT A
+    REPEAT B
+        HELLO
+    ENDREPEAT
+ENDREPEAT

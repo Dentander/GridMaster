@@ -33,6 +33,19 @@ class Interpreter:
 
         self.add_all_commands()
 
+    def reset(self):
+        self.logger = Logger(self)
+        self.field = Field()
+        self.actor = Actor(self)
+
+        self.script = []
+        self.commands = {}
+        self.blocks_stack = []
+        self.variables = []
+        self.line = 0
+        self.got_error = False
+        self.add_all_commands()
+
     def add_all_commands(self):
         self.add_command(Unknown(self))
 
@@ -51,12 +64,12 @@ class Interpreter:
         self.add_command(EndProc(self))
         self.add_command(Call(self))
 
+    def add_command(self, command):
+        self.commands[command.name] = command
+
     def read_file(self, file_name: str):
         with open(file_name) as file:
             self.script = file.readlines()
-
-    def add_command(self, command):
-        self.commands[command.name] = command
 
     def execute_current_line(self):
         line = self.line
