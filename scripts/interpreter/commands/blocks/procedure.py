@@ -7,8 +7,7 @@ class Procedure(Command):
         super().__init__(interpreter, name)
         self.proc_line = proc_line
 
-    def execute(self, previous_result=None):
-        print("AXAXAXAX")
+    def reverse_execute(self, previous_result=None):
         self.interpreter.blocks_stack.append(self)
         self.interpreter.goto(self.proc_line)
 
@@ -17,10 +16,11 @@ class CreateProc(Command):
     def __init__(self, interpreter):
         super().__init__(interpreter, 'PROCEDURE')
 
-    def pre_execute(self):
+    def direct_execute(self, previous_result=None):
         self.unknown.set_creating(Creating.proc)
+        return Creating.proc
 
-    def execute(self, previous_result=None):
+    def reverse_execute(self, previous_result=None):
         end = EndProc(self.interpreter).name
         new_line = self.interpreter.find_block_end(self.line, self.name, end)
         self.interpreter.goto(new_line)
@@ -30,12 +30,19 @@ class EndProc(Command):
     def __init__(self, interpreter):
         super().__init__(interpreter, 'ENDPROC')
 
-    def execute(self, previous_result=None):
-        proc = self.interpreter.blocks_stack.pop()
-        self.interpreter.goto(proc.line)
+    def reverse_execute(self, previous_result=None):
+
+        self.assert_if(len(self.interpreter.blocks_stack) > 0, 'TO MANY END COMMANDS')
+        block = self.interpreter.blocks_stack[-1]
+        self.assert_if(
+            block.name not in ['IFBLOCK', 'REPEAT'],
+            f'YOU ARE TRYING TO CLOSE [{block.name}] WITH [{self.name}]'
+        )
+
+        block = self.interpreter.blocks_stack.pop()
+        self.interpreter.goto(block.line)
 
 
 class Call(Command):
     def __init__(self, interpreter):
         super().__init__(interpreter, 'CALL')
-

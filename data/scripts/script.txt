@@ -1,11 +1,9 @@
-PROCEDURE MoveLeftAndUp
-    REPEAT 2
-        RIGHT 2
-        UP 2
-    ENDREPEAT
-    DOWN 1
+PROCEDURE MoveRightToEnd
+    IFBLOCK RIGHT
+        RIGHT 1
+        MoveRightToEnd
+    ENDIF
 ENDPROC
 
-REPEAT 2
-    CALL MoveLeftAndUp
-ENDREPEAT
+
+CALL MoveRightToEnd

@@ -2,16 +2,33 @@ from scripts.interpreter.logger.message import *
 
 
 class Logger:
-    def __init__(self):
+    def __init__(self, interpreter):
+        self.interpreter = interpreter
         self.messages = []
 
-    def log(self, message: Message):
-        self.messages.append(message)
-        print(message.text)
+    def debug(self, message_test: str, line=None):
+        if line is None:
+            line = self.interpreter.line
+        self.messages.append(Message(message_test, line, MessageType.DEBUG))
+        print(self.messages[-1])
 
-    def log(self, message_test: str, message_type=MessageType.DEBUG):
-        self.messages.append(Message(message_test, message_type))
-        print(message_test)
+    def info(self, message_test: str, line=None):
+        if line is None:
+            line = self.interpreter.line
+        self.messages.append(Message(message_test, line, MessageType.INFO))
+        print(self.messages[-1])
+
+    def warning(self, message_test: str, line=None):
+        if line is None:
+            line = self.interpreter.line
+        self.messages.append(Message(message_test, line, MessageType.WARNING))
+        print(self.messages[-1])
+
+    def error(self, message_test: str, line=None):
+        if line is None:
+            line = self.interpreter.line
+        self.messages.append(Message(message_test, line, MessageType.ERROR))
+        print(self.messages[-1])
 
     def clear(self):
         self.messages.clear()

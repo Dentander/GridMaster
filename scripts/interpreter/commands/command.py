@@ -14,8 +14,15 @@ class Command:
         self.line = line
         return self
 
-    def pre_execute(self):
+    def assert_if(self, condition, error_text):
+        if condition:
+            return
+
+        self.logger.error(error_text)
+        self.interpreter.got_error = True
+
+    def direct_execute(self, previous_result=None):
         pass
 
-    def execute(self, previous_result=None):
+    def reverse_execute(self, previous_result=None):
         pass

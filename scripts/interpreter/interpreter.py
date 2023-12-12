@@ -4,13 +4,14 @@ from scripts.interpreter.commands.movement.down import Down
 from scripts.interpreter.commands.movement.left import Left
 from scripts.interpreter.commands.movement.right import Right
 from scripts.interpreter.commands.movement.up import Up
+from scripts.interpreter.commands.standart.creating import Creating
 from scripts.interpreter.commands.variables.assignment import Assignment
 from scripts.interpreter.commands.blocks.repeat import Repeat, EndRepeat
 from scripts.interpreter.commands.variables.set import Set
 from scripts.interpreter.commands.standart.unknown import Unknown
 from scripts.interpreter.commands.standart.hello import Hello
 
-from scripts.interpreter.logger.logger import Logger, Message, MessageType
+from scripts.interpreter.logger.logger import Logger
 from scripts.interpreter.field import Field
 from scripts.interpreter.actor import Actor
 
@@ -19,7 +20,7 @@ from copy import copy
 
 class Interpreter:
     def __init__(self):
-        self.logger = Logger()
+        self.logger = Logger(self)
         self.field = Field()
         self.actor = Actor(self)
 
@@ -28,6 +29,7 @@ class Interpreter:
         self.blocks_stack = []
         self.variables = []
         self.line = 0
+        self.got_error = False
 
         self.add_all_commands()
 
@@ -57,30 +59,52 @@ class Interpreter:
         self.commands[command.name] = command
 
     def execute_current_line(self):
+        line = self.line
+
         commands = self.script[self.line].split()
         self.execute_commands(commands)
-        self.line += 1
 
-    def execute_commands(self, commands: list, current_command=0):
-        if current_command == len(commands):
+        self.assert_if(
+            Unknown.creating != Creating.proc,
+            'YOU ARE TRYING TO CREATE A PROC THAT ALREADY EXISTS',
+            line
+        )
+
+        if not self.got_error:
+            self.line += 1
+
+    def execute_commands(self, commands: list, current_command=0, previous_result=None):
+        self.assert_if(len(self.blocks_stack) <= 100, 'DEPTH LEVEL IS GREATER THAN 3')
+
+        if current_command == len(commands) or self.got_error:
             return None
-        command_name = commands[current_command]
 
+        command_name = commands[current_command]
         if command_name not in self.commands.keys():
-            command = copy(self.commands["__UNKNOWN__"]).set_line(self.line)
-            command.pre_execute()
-            return command.execute(command_name, self.execute_commands(commands, current_command+1))
+            command = copy(self.commands['__UNKNOWN__']).set_line(self.line)
+            command.direct_execute(command_name)
+            return command.reverse_execute(command_name, self.execute_commands(commands, current_command + 1))
 
         command = copy(self.commands[command_name]).set_line(self.line)
-        command.pre_execute()
-        return command.execute(self.execute_commands(commands, current_command+1))
+        command.direct_execute()
+        return command.reverse_execute(self.execute_commands(commands, current_command + 1))
 
     def goto(self, line: int):
+        if self.got_error:
+            return
+
         self.line = line
+
+    def assert_if(self, condition, error_text, line=None):
+        if condition:
+            return
+
+        self.logger.error(error_text, line)
+        self.got_error = True
 
     def find_block_end(self, line, block_begin, block_end):
         local_depth = 1
-        while local_depth > 0:
+        while local_depth > 0 and line + 1 < len(self.script):
             line += 1
             commands = self.script[line].split()
             if len(commands) == 0:
@@ -89,11 +113,17 @@ class Interpreter:
             command = commands[0]
             local_depth += command == block_begin
             local_depth -= command == block_end
+
+        self.assert_if(
+            line < len(self.script) and block_end in self.script[line],
+            f'COULD NOT FIND [{block_end}] TO END [{block_begin}]'
+        )
         return line
 
     def run(self):
         while self.line < len(self.script):
-            print(self.line + 1)
+            print(self.line)
             self.execute_current_line()
             self.field.draw(self.actor)
-        print(self.commands.keys())
+            if self.got_error:
+                break

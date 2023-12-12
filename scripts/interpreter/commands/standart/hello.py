@@ -5,5 +5,5 @@ class Hello(Command):
     def __init__(self, interpreter):
         super().__init__(interpreter, 'HELLO')
 
-    def execute(self, previous_result=None):
+    def reverse_execute(self, previous_result=None):
         print('Hello', self.line)

@@ -7,5 +7,6 @@ class Set(Command):
     def __init__(self, interpreter):
         super().__init__(interpreter, 'SET')
 
-    def pre_execute(self):
+    def direct_execute(self, previous_result=None):
         self.unknown.set_creating(Creating.variable)
+        return Creating.variable
