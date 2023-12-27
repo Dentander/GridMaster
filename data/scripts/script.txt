@@ -1,8 +1,18 @@
-SET A = 2
-SET B = A
-SET C = B
-REPEAT A
-    REPEAT B
-        HELLO
-    ENDREPEAT
-ENDREPEAT
+PROCEDURE MoveRightToEnd
+    IFBLOCK RIGHT
+        RIGHT 1
+        CALL MoveRightToEnd
+    ENDIF
+ENDPROC
+
+
+PROCEDURE MoveUpToEnd
+    IFBLOCK UP
+        UP 1
+        CALL MoveUpToEnd
+    ENDIF
+ENDPROC
+
+
+CALL MoveRightToEnd
+CALL MoveUpToEnd

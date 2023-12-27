@@ -9,7 +9,6 @@ from scripts.interpreter.commands.variables.assignment import Assignment
 from scripts.interpreter.commands.blocks.repeat import Repeat, EndRepeat
 from scripts.interpreter.commands.variables.set import Set
 from scripts.interpreter.commands.standart.unknown import Unknown
-from scripts.interpreter.commands.standart.hello import Hello
 
 from scripts.interpreter.logger.logger import Logger
 from scripts.interpreter.field import Field
@@ -20,6 +19,10 @@ from copy import copy
 
 class Interpreter:
     def __init__(self):
+        """
+        Constructor
+        """
+
         self.logger = Logger(self)
         self.field = Field()
         self.actor = Actor(self)
@@ -34,6 +37,10 @@ class Interpreter:
         self.add_all_commands()
 
     def reset(self):
+        """
+        Resets interpreter
+        """
+
         self.logger = Logger(self)
         self.field = Field()
         self.actor = Actor(self)
@@ -47,9 +54,12 @@ class Interpreter:
         self.add_all_commands()
 
     def add_all_commands(self):
+        """
+        Adds all command to self.commands dict
+        """
+
         self.add_command(Unknown(self))
 
-        self.add_command(Hello(self))
         self.add_command(Repeat(self))
         self.add_command(EndRepeat(self))
         self.add_command(Assignment(self))
@@ -65,13 +75,28 @@ class Interpreter:
         self.add_command(Call(self))
 
     def add_command(self, command):
+        """
+        Adds a command to self.commands dict
+
+        :param command: command to add
+        """
+
         self.commands[command.name] = command
 
     def read_file(self, file_name: str):
+        """
+        Reads script from file
+
+        :param file_name: file_name to read
+        """
+
         with open(file_name) as file:
             self.script = file.readlines()
 
     def execute_current_line(self):
+        """
+        Executes only current line
+        """
         line = self.line
 
         commands = self.script[self.line].split()
@@ -85,8 +110,16 @@ class Interpreter:
 
         if not self.got_error:
             self.line += 1
+        Unknown.creating = Creating.none
 
-    def execute_commands(self, commands: list, current_command=0, previous_result=None):
+    def execute_commands(self, commands: list, current_command=0):
+        """
+        Executes a list of commands
+
+        :param commands: commands list
+        :param current_command: current command index in commands list
+        """
+
         self.assert_if(len(self.blocks_stack) <= 100, 'DEPTH LEVEL IS GREATER THAN 3')
 
         if current_command == len(commands) or self.got_error:
@@ -103,19 +136,43 @@ class Interpreter:
         return command.reverse_execute(self.execute_commands(commands, current_command + 1))
 
     def goto(self, line: int):
+        """
+        Goes to line
+
+        :param line: line to go
+        """
+
         if self.got_error:
             return
 
         self.line = line
 
-    def assert_if(self, condition, error_text, line=None):
+    def assert_if(self, condition: bool, error_text: str, line=None):
+        """
+        If condition is False raises error with text
+
+        :param condition: condition to check for errors
+        :param error_text: text which will be shown if condition is False
+        :param line: line on which the error occurred
+        :rtype: bool
+        """
+
         if condition:
             return
 
         self.logger.error(error_text, line)
         self.got_error = True
 
-    def find_block_end(self, line, block_begin, block_end):
+    def find_block_end(self, line: int, block_begin: str, block_end: str):
+        """
+        Finds block_end line position to end block_begin
+
+        :param line: current line
+        :param block_begin: block begin name
+        :param block_end: block end name
+        :return: block_end line position
+        """
+
         local_depth = 1
         while local_depth > 0 and line + 1 < len(self.script):
             line += 1
@@ -134,6 +191,10 @@ class Interpreter:
         return line
 
     def run(self):
+        """
+        Executes the script completely
+        """
+
         while self.line < len(self.script):
             print(self.line)
             self.execute_current_line()
