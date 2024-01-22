@@ -1,0 +1,29 @@
+PROCEDURE SmartMovement
+    IFBLOCK RIGHT
+        IFBLOCK DOWN
+            UP X
+        ENDIF
+        DOWN X
+        IFBLOCK UP
+            DOWN X
+            DOWN X
+        ENDIF
+        UP X
+    ENDIF
+    IFBLOCK LEFT
+        IFBLOCK DOWN
+            UP X
+            UP X
+        ENDIF
+        DOWN X
+        IFBLOCK UP
+            DOWN X
+            DOWN X
+        ENDIF
+        UP X
+    ENDIF
+ENDPROC
+SET X = 2
+REPEAT 5
+    CALL SmartMovement
+ENDREPEAT

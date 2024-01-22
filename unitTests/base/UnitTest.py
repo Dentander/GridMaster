@@ -12,4 +12,7 @@ class UnitTest:
         self.inter.reset()
 
     def equal(self, target_pos):
-        print(self.inter.actor.position_x == target_pos[0] and self.inter.actor.position_y == target_pos[1])
+        if not self.inter.got_error:
+            print(self.inter.actor.position_x == target_pos[0] and self.inter.actor.position_y == target_pos[1])
+        else:
+            print("Процесс завершён ошибкой")
