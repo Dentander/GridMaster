@@ -7,17 +7,20 @@ class IfBlock(Command):
         super().__init__(interpreter, 'IFBLOCK')
 
     def reverse_execute(self, previous_result=None):
-        if isinstance(previous_result, tuple):
-            delta_x, delta_y = previous_result
-            if not self.field.is_out(self.actor.position_x + delta_x, self.actor.position_y + delta_y):
-                self.interpreter.blocks_stack.append(self)
-                return
-
-            end = EndIf(self.interpreter).name
-            new_line = self.interpreter.find_block_end(self.line, self.name, end)
-            self.interpreter.goto(new_line)
+        if self.assert_if(
+                isinstance(previous_result, tuple),
+                f'NOT VALID INPUT FOR IFBLOCK [{previous_result}]'
+        ):
             return
-        self.logger.log(f'Not valid input for IFBLOCK "{previous_result}"', MessageType.ERROR)
+
+        delta_x, delta_y = previous_result
+        if self.field.is_out(self.actor.position_x + delta_x, self.actor.position_y + delta_y):
+            self.interpreter.blocks_stack.append(self)
+            return
+
+        end = EndIf(self.interpreter).name
+        new_line = self.interpreter.find_block_end(self.line, self.name, end)
+        self.interpreter.goto(new_line)
 
 
 class EndIf(Command):

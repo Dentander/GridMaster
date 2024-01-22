@@ -120,7 +120,7 @@ class Interpreter:
         :param current_command: current command index in commands list
         """
 
-        self.assert_if(len(self.blocks_stack) <= 100, 'DEPTH LEVEL IS GREATER THAN 3')
+        self.assert_if(len(self.blocks_stack) <= 3, 'DEPTH LEVEL IS GREATER THAN 3')
 
         if current_command == len(commands) or self.got_error:
             return None
@@ -133,7 +133,11 @@ class Interpreter:
 
         command = copy(self.commands[command_name]).set_line(self.line)
         command.direct_execute()
-        return command.reverse_execute(self.execute_commands(commands, current_command + 1))
+
+        try:
+            return command.reverse_execute(self.execute_commands(commands, current_command + 1))
+        except Exception as error:
+            self.assert_if(False, f'UNKNOWN ERROR: {error}')
 
     def goto(self, line: int):
         """
@@ -158,10 +162,11 @@ class Interpreter:
         """
 
         if condition:
-            return
+            return False
 
         self.logger.error(error_text, line)
         self.got_error = True
+        return True
 
     def find_block_end(self, line: int, block_begin: str, block_end: str):
         """
@@ -195,9 +200,12 @@ class Interpreter:
         Executes the script completely
         """
 
-        while self.line < len(self.script):
+        while self.finished() is False:
             print(self.line)
             self.execute_current_line()
             self.field.draw(self.actor)
             if self.got_error:
                 break
+
+    def finished(self):
+        return self.line >= len(self.script) or self.got_error

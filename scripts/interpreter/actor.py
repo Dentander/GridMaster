@@ -31,7 +31,7 @@ class Actor:
         new_position_x, new_position_y = self.position_x + delta_x, self.position_y + delta_y
 
         if self.field.is_out(new_position_x, self.position_y):
-            self.interpreter.assert_if(False, "Actor is out of field")
+            self.interpreter.assert_if(False, "ACTOR IS OUT OF FIELD")
             return
 
         self.position_x, self.position_y = new_position_x, new_position_y

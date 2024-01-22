@@ -31,13 +31,16 @@ class EndProc(Command):
         super().__init__(interpreter, 'ENDPROC')
 
     def reverse_execute(self, previous_result=None):
+        if self.assert_if(len(self.interpreter.blocks_stack) > 0, 'TO MANY END COMMANDS'):
+            return
 
-        self.assert_if(len(self.interpreter.blocks_stack) > 0, 'TO MANY END COMMANDS')
         block = self.interpreter.blocks_stack[-1]
-        self.assert_if(
+
+        if self.assert_if(
             block.name not in ['IFBLOCK', 'REPEAT'],
             f'YOU ARE TRYING TO CLOSE [{block.name}] WITH [{self.name}]'
-        )
+        ):
+            return
 
         block = self.interpreter.blocks_stack.pop()
         self.interpreter.goto(block.line)

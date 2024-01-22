@@ -1,18 +1,15 @@
-PROCEDURE MoveRightToEnd
-    IFBLOCK RIGHT
-        RIGHT 1
-        CALL MoveRightToEnd
-    ENDIF
-ENDPROC
+REPEAT 20
+    RIGHT 1
+ENDREPEAT
 
+REPEAT 20
+    UP 1
+ENDREPEAT
 
-PROCEDURE MoveUpToEnd
-    IFBLOCK UP
-        UP 1
-        CALL MoveUpToEnd
-    ENDIF
-ENDPROC
+REPEAT 20
+    LEFT 1
+ENDREPEAT
 
-
-CALL MoveRightToEnd
-CALL MoveUpToEnd
+REPEAT 20
+    DOWN 1
+ENDREPEAT

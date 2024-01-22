@@ -17,6 +17,7 @@ class Unknown(Command):
 
         :param interpreter: instance of interpreter
         """
+
         super().__init__(interpreter, '__UNKNOWN__')
 
     def set_creating(self, value):
@@ -36,6 +37,7 @@ class Unknown(Command):
         :return: if line can be converted to an integer
         :rtype: bool
         """
+
         try:
             int(line)
             return True
@@ -66,7 +68,7 @@ class Unknown(Command):
         else:
             self.assert_if(
                 False,
-                f'Unknown command [{command_name}], maybe you forgot to call SET / PROCEDURE'
+                f'UNKNOWN COMMAND [{command_name}]'
             )
 
         Unknown.creating = Creating.none

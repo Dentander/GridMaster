@@ -7,6 +7,12 @@ class Repeat(Command):
         self.index = None
 
     def reverse_execute(self, previous_result=None):
+        if self.assert_if(
+                isinstance(previous_result, int) or (previous_result is None and self.index is not None),
+                f'NOT VALID INPUT FOR REPEAT [{previous_result}]'
+        ):
+            return
+
         if self.index is None:
             self.index = previous_result
             self.interpreter.blocks_stack.append(self)

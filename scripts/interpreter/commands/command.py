@@ -48,11 +48,7 @@ class Command:
         :rtype: bool
         """
 
-        if condition:
-            return
-
-        self.logger.error(error_text)
-        self.interpreter.got_error = True
+        return self.interpreter.assert_if(condition, error_text)
 
     def direct_execute(self, previous_result=None):
         """
