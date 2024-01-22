@@ -112,6 +112,9 @@ class Interpreter:
             self.line += 1
         Unknown.creating = Creating.none
 
+        if self.line >= len(self.script):
+            self.assert_if(len(self.blocks_stack) == 0, 'NOT ALL BLOCKS ENDED')
+
     def execute_commands(self, commands: list, current_command=0):
         """
         Executes a list of commands

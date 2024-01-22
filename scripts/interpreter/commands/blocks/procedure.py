@@ -38,7 +38,7 @@ class EndProc(Command):
 
         if self.assert_if(
             block.name not in ['IFBLOCK', 'REPEAT'],
-            f'YOU ARE TRYING TO CLOSE [{block.name}] WITH [{self.name}]'
+            f'YOU ARE TRYING TO END [{block.name}] WITH [{self.name}]'
         ):
             return
 

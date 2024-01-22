@@ -34,7 +34,7 @@ class EndRepeat(Command):
         block = self.interpreter.blocks_stack[-1]
         self.assert_if(
             block.name == Repeat(self.interpreter).name,
-            f'YOU ARE TRYING TO CLOSE [{block.name}] WITH [{self.name}]'
+            f'YOU ARE TRYING TO END [{block.name}] WITH [{self.name}]'
         )
         self.interpreter.goto(block.line)
         block.reverse_execute()
