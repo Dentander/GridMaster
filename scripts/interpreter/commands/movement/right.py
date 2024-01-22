@@ -24,4 +24,11 @@ class Right(Command):
 
         if previous_result is None:
             return 1, 0
+
+        if self.assert_if(
+                isinstance(previous_result, int),
+                f'INVALID INPUT FOR MOVEMENT [{previous_result}]'
+        ):
+            return
+
         self.actor.move(previous_result, 0)

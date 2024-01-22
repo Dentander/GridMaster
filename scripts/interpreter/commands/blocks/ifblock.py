@@ -9,7 +9,7 @@ class IfBlock(Command):
     def reverse_execute(self, previous_result=None):
         if self.assert_if(
                 isinstance(previous_result, tuple),
-                f'NOT VALID INPUT FOR IFBLOCK [{previous_result}]'
+                f'INVALID INPUT FOR IFBLOCK [{previous_result}]'
         ):
             return
 

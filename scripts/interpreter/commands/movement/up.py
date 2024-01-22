@@ -24,4 +24,10 @@ class Up(Command):
 
         if previous_result is None:
             return 0, 1
+        if self.assert_if(
+                isinstance(previous_result, int),
+                f'INVALID INPUT FOR MOVEMENT [{previous_result}]'
+        ):
+            return
+
         self.actor.move(0, previous_result)

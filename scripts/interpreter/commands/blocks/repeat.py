@@ -9,7 +9,7 @@ class Repeat(Command):
     def reverse_execute(self, previous_result=None):
         if self.assert_if(
                 isinstance(previous_result, int) or (previous_result is None and self.index is not None),
-                f'NOT VALID INPUT FOR REPEAT [{previous_result}]'
+                f'INVALID INPUT FOR REPEAT [{previous_result}]'
         ):
             return
 
