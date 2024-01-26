@@ -1,4 +1,4 @@
-from scripts.interpreter.interpreter import Interpreter
+from scripts_.interpreter.interpreter import Interpreter
 
 
 class UnitTest:

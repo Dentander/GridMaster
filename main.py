@@ -1,6 +1,7 @@
 from scripts.interpreter.interpreter import Interpreter
+import scripts.gui.qt as gui
 
 
-i = Interpreter()
-i.read_file('data/scripts/script.txt')
-i.run()
+if __name__ == "__main__":
+    interpretator = Interpreter()
+    gui.start(interpretator)
