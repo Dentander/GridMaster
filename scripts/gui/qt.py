@@ -147,21 +147,26 @@ class ToolBox(QtWidgets.QGroupBox):
         filename = QtWidgets.QFileDialog.getOpenFileName(self, "Open code file", filter = "Text files (*.txt)" )
 
         interpreter.reset()
-        
-        with open(filename[0]) as file:
-            try:
-                text = file.read()
-                self.code_edit.setText(text)
-                interpreter.read_code_from_TextEdit(text)
-            except Exception as exception:
-                self.error_place.setError('COULD NOT OPEN FILE')
+        try:
+            with open(filename[0]) as file:
+                try:
+                    text = file.read()
+                    self.code_edit.setText(text)
+                    interpreter.read_code_from_TextEdit(text)
+                except Exception as exception:
+                    self.error_place.setError('COULD NOT OPEN FILE')
+        except Exception as exception:
+            pass
     
     def saveFile(self):
         name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
-        file = open(name[0],'w')
-        text = self.code_edit.getText()
-        file.write(text)
-        file.close()
+        try:
+            file = open(name[0],'w')
+            text = self.code_edit.getText()
+            file.write(text)
+            file.close()
+        except Exception as _:
+            pass
 
 
 class LeftBox(QtWidgets.QGroupBox):

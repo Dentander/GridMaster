@@ -1,6 +1,6 @@
 P
 P
-PROCEDURE PROCEDURE A B
+PROCEDURE P
     REPEAT 1
         REPEAT 1
             UP 1
