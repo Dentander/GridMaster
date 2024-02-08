@@ -21,7 +21,7 @@ Command – базовый класс от которого все осталь�
 1) Скачиваете [ZIP архив](https://github.com/Dentander/GridMaster/releases/download/Windows/GridMaster.-.Windows.zip)
 2) Разорхивируйте
 3) Звпустите GridMaster.exe) 
-### Проекта для пользователей Linux
+### Проекта для пользователей Ubuntu
 Скачать [файл](https://github.com/Dentander/GridMaster/releases/download/Ubuntu/GridMaster.-.Ubuntu.deb)
 
 установка происходит либо через терминал коммандой sudo apt-get install ./package.deb
