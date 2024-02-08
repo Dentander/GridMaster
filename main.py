@@ -3,5 +3,5 @@ import scripts.gui.qt as gui
 
 
 if __name__ == "__main__":
-    interpretator = Interpreter()
-    gui.start(interpretator)
+    interpreter = Interpreter()
+    gui.start(interpreter)

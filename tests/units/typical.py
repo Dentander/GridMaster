@@ -1,4 +1,4 @@
-from tests.base.UnitTest import UnitTest
+from tests.base.tests import UnitTest
 
 
 class Movement(UnitTest):
