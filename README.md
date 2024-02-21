@@ -20,7 +20,7 @@ Command – базовый класс от которого все осталь�
 ### Проекта для пользователей Windows
 1) Скачиваете [ZIP архив](https://github.com/Dentander/GridMaster/releases/download/Windows/GridMaster.-.Windows.zip)
 2) Разорхивируйте
-3) Звпустите GridMaster.exe) 
+3) Запустите GridMaster.exe) 
 ### Проекта для пользователей Ubuntu
 Скачать [файл](https://github.com/Dentander/GridMaster/releases/download/Ubuntu/GridMaster.-.Ubuntu.deb)
 
